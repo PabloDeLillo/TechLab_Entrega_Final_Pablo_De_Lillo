@@ -1,0 +1,232 @@
+{
+  "info": {
+    "name": "Articulo API MySQL",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Pruebas manuales. Usar una base de demostración vacía y actualizar los IDs de las variables. Verificar que idInexistente no exista."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "idArticulo",
+      "value": "1"
+    },
+    {
+      "key": "idSegundo",
+      "value": "2"
+    },
+    {
+      "key": "idInexistente",
+      "value": "9999"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 Crear Teclado - 200",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/articulos",
+        "description": "Copiar el ID devuelto a la variable idArticulo de la colección.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Teclado\",\n  \"precio\": 15000\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "02 Crear Mouse - 200",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/articulos",
+        "description": "Copiar el ID devuelto a idSegundo.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Mouse\",\n  \"precio\": 8000\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "03 Listar - 200",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/articulos",
+        "description": ""
+      }
+    },
+    {
+      "name": "04 Consultar existente - 200",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/articulos/{{idArticulo}}",
+        "description": ""
+      }
+    },
+    {
+      "name": "05 Consultar inexistente - 404",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/articulos/{{idInexistente}}",
+        "description": ""
+      }
+    },
+    {
+      "name": "06 Actualizar - 200",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/articulos/{{idArticulo}}",
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Teclado mecánico\",\n  \"precio\": 25000\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "07 Actualizar inexistente - 404",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/articulos/{{idInexistente}}",
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Monitor\",\n  \"precio\": 120000\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "08 Eliminar - 204",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/articulos/{{idArticulo}}",
+        "description": ""
+      }
+    },
+    {
+      "name": "09 Consultar eliminado - 404",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/articulos/{{idArticulo}}",
+        "description": ""
+      }
+    },
+    {
+      "name": "10 Eliminar inexistente - 404",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/articulos/{{idInexistente}}",
+        "description": ""
+      }
+    },
+    {
+      "name": "12 Persistencia después de reiniciar - 200",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/articulos/{{idSegundo}}",
+        "description": "Detener y reiniciar Spring Boot antes de enviar. Debe conservar el Mouse."
+      }
+    },
+    {
+      "name": "Preparar tabla vacía - 204",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/articulos/{{idSegundo}}",
+        "description": "Eliminar también otros registros de la base de demostración si existen."
+      }
+    },
+    {
+      "name": "11 Listar tabla vacía - 200",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/articulos",
+        "description": "Debe devolver []."
+      }
+    },
+    {
+      "name": "Extra Buscar por nombre - 200",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/articulos/buscar?nombre=mouse",
+        "description": ""
+      }
+    },
+    {
+      "name": "Extra Validación - 400",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/articulos",
+        "description": "",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"\",\n  \"precio\": -1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
